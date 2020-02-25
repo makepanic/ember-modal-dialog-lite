@@ -1,4 +1,14 @@
-# Ember Modal Dialog [![Build Status](https://travis-ci.org/yapplabs/ember-modal-dialog.svg?branch=master)](https://travis-ci.org/yapplabs/ember-modal-dialog) [![Ember Observer Score](http://emberobserver.com/badges/ember-modal-dialog.svg)](http://emberobserver.com/addons/ember-modal-dialog)
+# Ember Modal Dialog Lite
+
+__This is a fork of [ember-modal-dialog](https://github.com/yapplabs/ember-modal-dialog) that removes all of the animation and tethering related functionality.__
+
+The fork was migrated to TS and glimmer components.
+
+## Installation
+
+```sh
+ember install @makepanic/ember-modal-dialog-lite
+```
 
 The ember-modal-dialog addon provides components to implement modal dialogs throughout an Ember application using a simple, consistent pattern.
 
@@ -15,9 +25,6 @@ Unlike some other modal libraries for Ember, ember-modal-dialog uses solutions l
 - [Routable Usage](#routable-usage)
 - [Configurable Properties](#configurable-properties)
   * [modal-dialog](#modal-dialog)
-    + [Tethering](#tethering)
-    + [Animation](#animation)
-  * [Optional Dependencies](#optional-dependencies)
 - [Which Component Should I Use?](#which-component-should-i-use)
 - [Positioning](#positioning)
     + [Caveats](#caveats)
@@ -48,23 +55,23 @@ Test examples are located in `tests/dummy/app/templates/application.hbs` and can
 Here is the simplest way to get started with ember-modal-dialog:
 
 ```sh
-ember install ember-modal-dialog
+ember install @makepanic/ember-modal-dialog-lite
 ```
 
 Then import the CSS files
 
 **app.css**
 ```css
-@import "ember-modal-dialog/ember-modal-structure.css";
-@import "ember-modal-dialog/ember-modal-appearance.css";
+@import "ember-modal-dialog-lite/ember-modal-structure.css";
+@import "ember-modal-dialog-lite/ember-modal-appearance.css";
 ```
 
 If you’re using SASS then just import the CSS slightly differently
 
 **app.scss**
 ```scss
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-modal-dialog-lite/ember-modal-structure";
+@import "ember-modal-dialog-lite/ember-modal-appearance";
 ```
 
 **application.hbs**
@@ -129,109 +136,28 @@ The modal-dialog component supports the following properties:
 
 Property              | Purpose
 --------------------- | -------------
-`hasOverlay`          | Toggles presence of overlay div in DOM
 `translucentOverlay`  | Indicates translucence of overlay, toggles presence of `translucent` CSS selector
 `onClose`               | The action handler for the dialog's `onClose` action. This action triggers when the user clicks the modal overlay.
 `onClickOverlay`      | An action to be called when the overlay is clicked. If this action is specified, clicking the overlay will invoke it instead of `onClose`.
 `clickOutsideToClose` | Indicates whether clicking outside a modal *without* an overlay should close the modal. Useful if your modal isn't the focus of interaction, and you want hover effects to still work outside the modal.
-`renderInPlace`       | A boolean, when true renders the modal without wormholing or tethering, useful for including a modal in a style guide
-`overlayPosition`     | either `'parent'` or `'sibling'`,  to control whether the overlay div is rendered as a parent element of the container div or as a sibling to it (default: `'parent'`)
 `containerClass`      | CSS class name(s) to append to container divs. Set this from template.
 `containerClassNames` | CSS class names to append to container divs. This is a concatenated property, so it does **not** replace the default container class (default: `'ember-modal-dialog'`. If you subclass this component, you may define this in your subclass.)
 `overlayClass`        | CSS class name(s) to append to overlay divs. Set this from template.
 `overlayClassNames`   | CSS class names to append to overlay divs. This is a concatenated property, so it does **not** replace the default overlay class (default: `'ember-modal-overlay'`. If you subclass this component, you may define this in your subclass.)
 `wrapperClass`        | CSS class name(s) to append to wrapper divs. Set this from template.
 `wrapperClassNames`   | CSS class names to append to wrapper divs. This is a concatenated property, so it does **not** replace the default container class (default: `'ember-modal-wrapper'`. If you subclass this component, you may define this in your subclass.)
-`animatable`          | A boolean, when `true` makes modal animatable using `liquid-fire` (requires `liquid-wormhole` to be installed, and for tethering situations `liquid-tether`. Having these optional dependencies installed and not specifying `animatable` will make `animatable=true` be the default.)
-
-#### Tethering
-
-If you specify a `tetherTarget`, you are opting into "tethering" behavior, and you must have either `ember-tether` or `liquid-tether` installed.
-
-Property              | Purpose
---------------------- | -------------
-`tetherTarget`        | Element selector or element reference for that serves as the reference for modal position
-
-We use the amazing [Tether.js](http://tether.io/) library (via [ember-tether](https://github.com/yapplabs/ember-tether)) to let you position your dialog relative to other elements in the DOM.
-
-\* Please see [Hubspot Tether](http://github.hubspot.com/tether/) for usage documentation.
-
-When in a tethering scenario, you may also pass the following properties, which are passed through to Tether:
-
-Property              | Purpose
---------------------- | -------------
-`attachment`          | Delegates to Hubspot Tether*
-`targetAttachment`    | Delegates to Hubspot Tether*
-`tetherClassPrefix`   | Delegates to Hubspot Tether*
-`offset`              | Delegates to Hubspot Tether*
-`targetOffset`        | Delegates to Hubspot Tether*
-`constraints`         | Delegates to Hubspot Tether*
-
-#### Animation
-
-This component supports animation when certain addons are present (liquid-wormhole, liquid-tether).
-
-Detection is be automatic. To opt out of using animatable features when you have these `liquid-*` addons installed, pass `animatable=false`.
-
-When in an animatable scenario, you may also pass the following properties, which are passed through to liquid-wormhole or liquid-tether:
-
-Property              | Purpose
---------------------- | -------------
-`stack`               | Delegates to liquid-wormhole/liquid-tether
-
-### Optional Dependencies
-
-Dependency                      | Documentation
---------------------------------|------------
-`ember install ember-tether`    | [Docs](//github.com/yapplabs/ember-tether/)
-`ember install liquid-wormhole` | [Docs](//pzuraq.github.io/liquid-wormhole/)
-`ember install liquid-tether`   | [Docs](//pzuraq.github.io/liquid-tether/)
-`ember install liquid-fire`     | [Docs](//ember-animation.github.io/liquid-fire/)
-
 
 ## Which Component Should I Use?
 
 Various modal use cases are best supported by different DOM structures. Ember Modal Dialog's `modal-dialog` component provides the following capabilities:
 
-- modal-dialog without passing a `tetherTarget`: Uses ember-wormhole to append the following parent divs to the destination element: wrapper div > overlay div > container div
+- modal-dialog: Uses ember-wormhole to append the following parent divs to the destination element: wrapper div > overlay div > container div
 
     ![](tests/dummy/public/modal-dialog.png)
-
-This can be customized (see `overlayPosition`).
-
-- modal-dialog, with a `tetherTarget` provided: Uses ember-tether to display modal container div. Uses ember-wormhole to append optional overlay div to the destination element. Requires separate installation of [ember-tether](//github.com/yapplabs/ember-tether) dependency.
-
-    ![](tests/dummy/public/tether-dialog.png)
 
 ## Positioning
 
 With the default CSS provided, your modal will be centered in the viewport. By adjusting the CSS, you can adjust this logic.
-
-Pass a `tetherTarget` in order to position our modal in relation to the target and enable your modal remain positioned near their targets when users scroll or resize the window.
-
-Use `attachment` and `targetAttachment` properties to configure positioning of the modal dialog near its target. Ember Modal Dialog uses the syntax from Hubspot Tether for these properties: "top|middle|bottom left|center|right|elementCenter"... e.g. `'middle left'`
-
-To enable this behavior, install ember-tether as a dependency of **your ember app**.
-
-    ember install ember-tether
-
-Then pass a selector as `tetherTarget` for the modal you wish to position this way:
-
-```htmlbars
-{{#modal-dialog
-    tetherTarget='#target-element-id'
-    targetAttachment='middle right'
-    attachment='middle left'
-}}
-  I am a modal that will remain tethered to the right of the element with id 'target-element-id'
-{{/modal-dialog}}
-```
-
-#### Caveats
-
-Event delegation originating from content inside ember-tether blocks will only work for Ember apps that use Ember's default root element of the `body` tag. This is because, generally speaking, the Hubspot Tether library appends its positioned elements to the body element.
-
-If you are not overriding the default root element, then don't worry and carry on. ember-tether will work just fine for you.
 
 ## Wormholes
 
@@ -269,16 +195,16 @@ You can import the CSS files directly
 
 **app.css**
 ```css
-@import "ember-modal-dialog/ember-modal-structure.css";
-@import "ember-modal-dialog/ember-modal-appearance.css";
+@import "ember-modal-dialog-lite/ember-modal-structure.css";
+@import "ember-modal-dialog-lite/ember-modal-appearance.css";
 ```
 
 If you’re using SASS then just import the CSS slightly differently
 
 **app.scss**
 ```scss
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-modal-dialog-lite/ember-modal-structure";
+@import "ember-modal-dialog-lite/ember-modal-appearance";
 ```
 
 ## Keyboard shortcuts
@@ -287,7 +213,7 @@ A quick-and-dirty way to implement keyboard shortcuts (e.g. to dismiss your moda
 
 ```js
 // app/components/modal-dialog.js
-import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
+import ModalDialog from '@makepanic/ember-modal-dialog-lite/components/modal-dialog';
 
 const ESC_KEY = 27;
 
@@ -317,7 +243,7 @@ This can work, but some apps require a more sophisticated approach. One approach
 ```javascript
 // app/components/modal-dialog.js
 import Ember from 'ember';
-import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
+import ModalDialog from '@makepanic/ember-modal-dialog-lite/components/modal-dialog';
 import { EKMixin as EmberKeyboardMixin, keyDown } from 'ember-keyboard';
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
@@ -346,7 +272,7 @@ If you have various different styles of modal dialog in your app, it can be usef
 ```js
 // app/components/full-screen-modal.js
 
-import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
+import ModalDialog from '@makepanic/ember-modal-dialog-lite/components/modal-dialog';
 
 export default ModalDialog.extend({
   containerClassNames: "full-screen-modal",

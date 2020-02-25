@@ -31,9 +31,7 @@ export default function registerAssertHelpers() {
     await waitUntil(function() {
       return findContains(dialogSelector, options.dialogText);
     });
-    if (options.hasOverlay) {
-      self.isPresentOnce(overlaySelector);
-    }
+    self.isPresentOnce(overlaySelector);
     if (options.whileOpen) {
       await options.whileOpen();
     }

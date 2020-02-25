@@ -1,0 +1,17 @@
+<EmberWormhole @to={{this.destinationElementId}}>
+  <div
+          class="{{this.wrapperClassNamesString}} {{@wrapperClass}}"
+    {{did-insert (fn this.didInsert)}}
+  >
+    <div
+            class={{this.overlayClassNamesString}}
+            tabindex="-1"
+            data-emd-overlay
+            {{on "click" (ignore-children @onClickOverlay)}}
+    >
+      <div class={{this.containerClassNamesString}}>
+        {{yield}}
+      </div>
+    </div>
+  </div>
+</EmberWormhole>

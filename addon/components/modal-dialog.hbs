@@ -1,0 +1,15 @@
+<EmberModalDialog::-BasicDialog
+    @wrapperClass={{@wrapperClass}}
+    @wrapperClassNames={{this.wrapperClassNames}}
+    @overlayClass={{@overlayClass}}
+    @overlayClassNames={{this.overlayClassNames}}
+    @containerClass={{@containerClass}}
+    @containerClassNames={{this.containerClassNames}}
+    @translucentOverlay={{@translucentOverlay}}
+    @clickOutsideToClose={{@clickOutsideToClose}}
+    @destinationElementId={{@destinationElementId}}
+    @onClickOverlay={{fn this.onClickOverlay}}
+    @onClose={{fn this.onClose}}
+>
+  {{yield}}
+</EmberModalDialog::-BasicDialog>

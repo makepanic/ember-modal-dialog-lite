@@ -1,4 +1,4 @@
-/*globals document, Ember */
+import Ember from 'ember';
 let hasDOM = typeof document !== 'undefined';
 
 function appendContainerElement(rootElementOrId, id) {

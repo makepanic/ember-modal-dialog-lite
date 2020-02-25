@@ -15,5 +15,4 @@ module.exports = {
       return configGenerator(env, baseConfig, this);
     }
   }
-
 };

@@ -1,4 +1,4 @@
-import initialize from 'ember-modal-dialog/initializers/add-modals-container';
+import initialize from '@makepanic/ember-modal-dialog-lite/initializers/add-modals-container';
 
 export default {
   name: 'add-modals-container',

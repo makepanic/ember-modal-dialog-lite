@@ -1,1 +1,1 @@
-export { default } from 'ember-modal-dialog/components/basic-dialog';
+export { default } from '@makepanic/ember-modal-dialog-lite/components/basic-dialog';
