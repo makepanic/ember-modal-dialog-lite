@@ -21,7 +21,7 @@ export default function(App) {
   let modalContainerElId = emberModalDialog.modalRootElementId || 'modal-overlays';
 
   App.register('config:modals-container-id',
-               Ember.testing ? 'ember-testing' : modalContainerElId,
+               { toString: () => Ember.testing ? 'ember-testing' : modalContainerElId },
                { instantiate: false });
 
   App.inject('service:modal-dialog',
